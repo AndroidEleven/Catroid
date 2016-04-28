@@ -146,6 +146,20 @@ public class Project implements Serializable {
 		return xmlHeader.getDescription();
 	}
 
+	public int getVirtualScreenHeight() {
+		return xmlHeader.getVirtualScreenHeight();
+	}
+
+	public int getVirtualScreenWidth() {
+		return xmlHeader.getVirtualScreenWidth();
+	}
+
+	public String getRemixOf() { return xmlHeader.getRemixOf(); }
+
+	public String getUserHandle() {
+		return xmlHeader.getUserHandle();
+	}
+
 	public void setScreenMode(ScreenModes screenMode) {
 		xmlHeader.setScreenMode(screenMode);
 	}

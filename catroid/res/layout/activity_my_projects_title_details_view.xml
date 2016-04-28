@@ -22,68 +22,162 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/my_projects_activity_list_item_description"
+    android:id="@+id/my_projects_activity_list_item_details"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
+    android:visibility="gone"
+    android:layout_marginTop="9dp"
+    android:layout_marginBottom="9dp"
+    android:paddingTop="9dp"
     android:paddingBottom="9dp"
-    android:layout_toRightOf="@+id/my_projects_activity_project_image">
+    android:background="@color/actionbar_background_color"
+    android:layout_below="@id/my_projects_activity_project_image">
 
     <TextView
-        android:id="@+id/my_projects_activity_project_title"
-        style="@style/ListViewItemTitleText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="2"/>
-
-    <RelativeLayout
-        android:id="@+id/my_projects_activity_list_item_details"
+        android:id="@+id/my_projects_activity_project_author_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        style="@style/ListViewItemDetailsText"
-        android:layout_below="@id/my_projects_activity_project_title">
+        android:layout_marginLeft="12.5dp"
+        android:textStyle="bold"
+        android:singleLine="false"
 
-        <TextView
-            android:id="@+id/my_projects_activity_project_changed_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="true"
-            android:layout_marginLeft="12.5dp"
-            android:layout_toRightOf="@id/my_projects_activity_project_image"
-            android:text="@string/last_used" 
-            style="@style/ListViewItemDetailsText"/>
+        android:text="@string/author"
+        style="@style/ListViewItemDetailsText"/>
 
-        <TextView
-            android:id="@+id/my_projects_activity_size_of_project_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="true"
-            android:layout_below="@id/my_projects_activity_project_changed_1"
-            android:layout_marginLeft="12.5dp"
-            android:layout_toRightOf="@id/my_projects_activity_project_image"
-            android:text="@string/size_of_project" 
-            style="@style/ListViewItemDetailsText"/>
+    <TextView
+        android:id="@+id/my_projects_activity_project_mode_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12.5dp"
+        android:textStyle="bold"
+        android:layout_below="@id/my_projects_activity_project_author_1"
+        android:text="@string/mode"
+        style="@style/ListViewItemDetailsText"/>
 
-        <TextView
-            android:id="@+id/my_projects_activity_project_changed_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="true"
-            android:layout_marginLeft="24dp"
-            android:layout_toRightOf="@id/my_projects_activity_project_changed_1" 
-            style="@style/ListViewItemDetailsText"/>
+    <TextView
+        android:id="@+id/my_projects_activity_project_author_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@id/my_projects_activity_project_author_1"
+        style="@style/ListViewItemDetailsText"/>
 
-        <TextView
-            android:id="@+id/my_projects_activity_size_of_project_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignWithParentIfMissing="true"
-            android:layout_below="@id/my_projects_activity_project_changed_2"
-            android:layout_marginLeft="24dp"
-            android:layout_toRightOf="@id/my_projects_activity_project_changed_1" 
-            style="@style/ListViewItemDetailsText"/>
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/my_projects_activity_project_mode_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_projects_activity_project_author_2"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@id/my_projects_activity_project_mode_1"
+        style="@style/ListViewItemDetailsText"/>
+
+    <TextView
+        android:id="@+id/my_projects_activity_project_screen_size_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="12.5dp"
+        android:layout_alignParentRight="true"
+        style="@style/ListViewItemDetailsText"/>
+
+    <TextView
+        android:id="@+id/my_projects_activity_project_screen_size_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:layout_toLeftOf="@id/my_projects_activity_project_screen_size_2"
+        android:textStyle="bold"
+        android:text="@string/screen_size"
+        style="@style/ListViewItemDetailsText"/>
+
+     <TextView
+         android:id="@+id/my_projects_activity_size_of_project_1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:textStyle="bold"
+         android:layout_below="@id/my_projects_activity_project_screen_size_1"
+         android:layout_alignLeft="@id/my_projects_activity_project_screen_size_1"
+         android:text="@string/size_of_project"
+         style="@style/ListViewItemDetailsText"/>
+
+    <TextView
+        android:id="@+id/my_projects_activity_size_of_project_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@id/my_projects_activity_size_of_project_1"
+        android:layout_below="@id/my_projects_activity_project_screen_size_2"
+        android:layout_marginRight="12.5dp"
+        style="@style/ListViewItemDetailsText"/>
+
+    <TextView
+        android:id="@+id/my_projects_activity_project_changed_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_below="@id/my_projects_activity_project_mode_1"
+        android:layout_marginLeft="12.5dp"
+        android:layout_marginRight="4dp"
+        android:text="@string/last_used"
+        style="@style/ListViewItemDetailsText"/>
+
+    <TextView
+        android:id="@+id/my_projects_activity_project_merge_history_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12.5dp"
+        android:textStyle="bold"
+        android:layout_below="@id/my_projects_activity_project_changed_1"
+        android:text="@string/merge_history"
+        style="@style/ListViewItemDetailsText"/>
+
+    <TextView
+        android:id="@+id/my_projects_activity_project_merge_history_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/my_projects_activity_project_merge_history_1"
+        android:layout_marginLeft="20dp"
+        style="@style/ListViewItemDetailsText"/>
+
+    <TextView
+        android:id="@+id/my_projects_activity_project_description_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12.5dp"
+        android:textStyle="bold"
+        android:layout_below="@id/my_projects_activity_project_merge_history_2"
+        android:text="@string/description"
+        style="@style/ListViewItemDetailsText"/>
+
+    <TextView
+        android:id="@+id/my_projects_activity_project_changed_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:layout_below="@id/my_projects_activity_project_mode_2"
+        android:layout_toRightOf="@id/my_projects_activity_project_changed_1"
+        style="@style/ListViewItemDetailsText"/>
+
+    <ImageButton
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_edit_description"
+        android:src="@drawable/ic_edit"
+        android:background="@color/transparent"
+        android:padding="15dip"
+        android:layout_below="@id/my_projects_activity_project_merge_history_2"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/my_projects_activity_project_description_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:layout_below="@id/my_projects_activity_project_description_1"
+        android:layout_marginLeft="20dp"
+        android:layout_toLeftOf="@id/btn_edit_description"
+        android:layout_marginRight="5dp"
+        style="@style/ListViewItemDetailsText"/>
 
 </RelativeLayout>

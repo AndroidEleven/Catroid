@@ -32,6 +32,7 @@
     <string name="menu_item_move_up">Move up</string>
     <string name="menu_item_move_to_top">Move to top</string>
     <string name="menu_item_move_to_bottom">Move to bottom</string>
+    <string name="dash">-</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="copy">Copy</string>
@@ -303,6 +304,12 @@
     <!-- My Projects activity -->
     <string name="last_used">Last access:</string>
     <string name="description">Description:</string>
+    <string name="author">Author:</string>
+    <string name="mode">Mode:</string>
+    <string name="screen_size">Screen Size:</string>
+    <string name="merge_history">Merge History:</string>
+    <string name="portrait">Portrait</string>
+    <string name="landscape">Landscape</string>
     <string name="set_description">Set description</string>
     <string name="rename_project">Rename Program</string>
     <string name="copy_project_finished"> copied.</string>

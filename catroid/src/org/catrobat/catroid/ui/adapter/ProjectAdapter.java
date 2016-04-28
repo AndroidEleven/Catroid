@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,13 +34,16 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.ProjectScreenshotLoader;
 import org.catrobat.catroid.utils.UtilFile;
 import org.catrobat.catroid.utils.Utils;
@@ -57,15 +61,24 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 	private int selectMode;
 	private Set<Integer> checkedProjects = new TreeSet<Integer>();
 	private OnProjectEditListener onProjectEditListener;
+	private ProjectManager projectManager;
 
 	private static class ViewHolder {
 		private RelativeLayout background;
 		private CheckBox checkbox;
 		private TextView projectName;
 		private ImageView image;
+		private TextView author;
+		private TextView mode;
+		private TextView screenSize;
+		private TextView description;
 		private TextView size;
 		private TextView dateChanged;
+		private TextView mergeHistory;
 		private View projectDetails;
+		private ImageButton expandDetailsOpen;
+		private ImageButton expandDetailsClose;
+		private ImageButton editDescription;
 		// temporarily removed - because of upcoming release, and bad performance of projectdescription
 		//		public TextView description;
 	}
@@ -128,8 +141,16 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 			holder.checkbox = (CheckBox) projectView.findViewById(R.id.project_checkbox);
 			holder.projectName = (TextView) projectView.findViewById(R.id.my_projects_activity_project_title);
 			holder.image = (ImageView) projectView.findViewById(R.id.my_projects_activity_project_image);
+			holder.author = (TextView) projectView.findViewById(R.id.my_projects_activity_project_author_2);
+			holder.mode = (TextView) projectView.findViewById(R.id.my_projects_activity_project_mode_2);
+			holder.screenSize = (TextView) projectView.findViewById(R.id.my_projects_activity_project_screen_size_2);
+			holder.description = (TextView) projectView.findViewById(R.id.my_projects_activity_project_description_2);
 			holder.size = (TextView) projectView.findViewById(R.id.my_projects_activity_size_of_project_2);
 			holder.dateChanged = (TextView) projectView.findViewById(R.id.my_projects_activity_project_changed_2);
+			holder.mergeHistory = (TextView) projectView.findViewById(R.id.my_projects_activity_project_merge_history_2);
+			holder.expandDetailsOpen = (ImageButton) projectView.findViewById(R.id.btn_detail_open);
+			holder.expandDetailsClose = (ImageButton) projectView.findViewById(R.id.btn_detail_close);
+			holder.editDescription = (ImageButton) projectView.findViewById(R.id.btn_edit_description);
 			holder.projectDetails = projectView.findViewById(R.id.my_projects_activity_list_item_details);
 			// temporarily removed - because of upcoming release, and bad performance of projectdescription
 			//			holder.description = (TextView) projectView.findViewById(R.id.my_projects_activity_description);
@@ -139,14 +160,50 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 		}
 
 		// ------------------------------------------------------------
-		ProjectData projectData = getItem(position);
-		String projectName = projectData.projectName;
+		final ProjectData projectData = getItem(position);
+		final String projectName = projectData.projectName;
 
-		//set name of project:
-		holder.projectName.setText(projectName);
+		try {
+			projectManager = ProjectManager.getInstance();
+			projectManager.loadProject(projectName, getContext());
 
-		// set size of project:
-		holder.size.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectName))));
+			//set name of project:
+			holder.projectName.setText(projectName);
+
+			//set mode
+			if (projectManager.getCurrentProject().islandscapeMode()) {
+				holder.mode.setText(R.string.landscape);
+			} else {
+				holder.mode.setText(R.string.portrait);
+			}
+
+			//set description
+			holder.description.setText(projectManager.getCurrentProject().getDescription());
+
+			// set size of project:
+			holder.size.setText(UtilFile.getSizeAsString(new File(Utils.buildProjectPath(projectName))));
+
+			//set screen size
+			String screenSize = projectManager.getCurrentProject().getVirtualScreenWidth() + "x" + projectManager
+					.getCurrentProject().getVirtualScreenHeight();
+			holder.screenSize.setText(screenSize);
+
+			//set merge history
+			if (projectManager.getCurrentProject().getRemixOf().isEmpty()) {
+				holder.mergeHistory.setText(R.string.dash);
+			} else {
+				holder.mergeHistory.setText(projectManager.getCurrentProject().getRemixOf());
+			}
+
+			//set author
+			if (projectManager.getCurrentProject().getUserHandle().isEmpty()) {
+				holder.author.setText(R.string.dash);
+			} else {
+				holder.author.setText(projectManager.getCurrentProject().getUserHandle());
+			}
+		} catch (ProjectException projectException) {
+			Utils.showErrorDialog(getContext(), R.string.error_load_project);
+		}
 
 		//set last changed:
 		Date projectLastModificationDate = new Date(projectData.lastUsed);
@@ -178,14 +235,6 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 
 		//set project image (threaded):
 		screenshotLoader.loadAndShowScreenshot(projectName, holder.image);
-
-		if (!showDetails) {
-			holder.projectDetails.setVisibility(View.GONE);
-			holder.projectName.setSingleLine(true);
-		} else {
-			holder.projectDetails.setVisibility(View.VISIBLE);
-			holder.projectName.setSingleLine(false);
-		}
 
 		holder.checkbox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -227,6 +276,35 @@ public class ProjectAdapter extends ArrayAdapter<ProjectData> {
 				} else if (onProjectEditListener != null) {
 					onProjectEditListener.onProjectEdit(position);
 				}
+			}
+		});
+
+		holder.expandDetailsOpen.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				holder.expandDetailsOpen.setVisibility(View.INVISIBLE);
+				holder.expandDetailsClose.setVisibility(View.VISIBLE);
+
+				holder.projectDetails.setVisibility(View.VISIBLE);
+				holder.projectName.setSingleLine(false);
+			}
+		});
+
+		holder.expandDetailsClose.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				holder.expandDetailsOpen.setVisibility(View.VISIBLE);
+				holder.expandDetailsClose.setVisibility(View.INVISIBLE);
+
+				holder.projectDetails.setVisibility(View.GONE);
+				holder.projectName.setSingleLine(true);
+			}
+		});
+
+		holder.editDescription.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.d("TODO", "Call edit description dialog here!");
 			}
 		});
 

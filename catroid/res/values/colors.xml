@@ -27,6 +27,7 @@
     <color name="solid_white">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="actionbar_title_color">#6F8E9B</color>
+    <color name="actionbar_background_color">#003344</color>
     <color name="application_background_color">#04222C</color>
     <color name="transparent">#00000000</color>
     <color name="formula_editor_keyboard_text_color">#A8DFF4</color>

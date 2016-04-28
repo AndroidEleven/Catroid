@@ -50,6 +50,7 @@ public class XmlHeader implements Serializable {
 	private int applicationBuildNumber = 0;
 	private String applicationName = "";
 	private String applicationVersion = "";
+	private String userHandle = "";
 	@SuppressWarnings("unused")
 	private String dateTimeUpload = "";
 	private String deviceName = "";
@@ -65,8 +66,6 @@ public class XmlHeader implements Serializable {
 	private String tags = "";
 	@SuppressWarnings("unused")
 	private String url = "";
-	@SuppressWarnings("unused")
-	private String userHandle = "";
 
 	public XmlHeader() {
 	}
@@ -189,5 +188,9 @@ public class XmlHeader implements Serializable {
 
 	public void setlandscapeMode(boolean landscapeMode) {
 		this.landscapeMode = landscapeMode;
+	}
+
+	public String getUserHandle() {
+		return this.userHandle;
 	}
 }
