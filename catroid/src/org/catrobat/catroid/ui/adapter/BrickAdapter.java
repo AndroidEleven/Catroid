@@ -234,7 +234,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		if (draggedBrick instanceof NestingBrick) {
 			NestingBrick nestingBrick = (NestingBrick) draggedBrick;
 			if (nestingBrick.isInitialized()) {
-				to = getDraggedNestingBricksToPosition(nestingBrick, to);
+				if (nestingBrick.getAllNestingBrickParts(true).get(0) == nestingBrick) {
+					to = adjustNestingBrickDraggedPosition(nestingBrick, fromBeginDrag, to);
+				} else {
+					to = getDraggedNestingBricksToPosition(nestingBrick, to);
+				}
 			}
 		} else if (draggedBrick instanceof ScriptBrick) {
 			int currentPosition = to;
@@ -295,6 +299,16 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			}
 		}
 
+		return to;
+	}
+
+	private int adjustNestingBrickDraggedPosition(NestingBrick nestingBrick, int from, int to) {
+		List<NestingBrick> nestingBrickList = nestingBrick.getAllNestingBrickParts(true);
+		NestingBrick endBrick = nestingBrickList.get(nestingBrickList.size() - 1);
+		int endBrickPosition =  brickList.indexOf(endBrick);
+		if (to > from && to < endBrickPosition) {
+			return endBrickPosition;
+		}
 		return to;
 	}
 
@@ -423,7 +437,11 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 			if (script != null) {
 				moveUserBrick(fromBeginDrag, toEndDrag);
 			} else {
-				moveExistingProjectBrick(fromBeginDrag, toEndDrag);
+				if (draggedBrick instanceof NestingBrick) {
+					moveNestingBrick(fromBeginDrag, toEndDrag);
+				} else {
+					moveExistingProjectBrick(fromBeginDrag, toEndDrag);
+				}
 			}
 		}
 
@@ -473,6 +491,48 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		Brick brick = script.getBrick(getPositionInUserScript(from));
 		script.removeBrick(brick);
 		script.addBrick(getPositionInUserScript(to), brick);
+	}
+
+	private void moveNestingBrick(int from, int to) {
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+
+		int[] tempFrom = getScriptAndBrickIndexFromProject(from);
+		int scriptPositionFrom = tempFrom[0];
+		int brickPositionFrom = tempFrom[1];
+
+		Script fromScript = currentSprite.getScript(scriptPositionFrom);
+
+		Brick brick = fromScript.getBrick(brickPositionFrom);
+
+		NestingBrick nestingBrick = (NestingBrick) brick;
+		List<NestingBrick> nestingBricks = nestingBrick.getAllNestingBrickParts(true);
+		NestingBrick endNestingBrick = nestingBricks.get(nestingBricks.size() - 1);
+		List<Brick> fromScriptBrickList = fromScript.getBrickList();
+		int endPosition = fromScriptBrickList.indexOf(endNestingBrick);
+		int count = endPosition - brickPositionFrom;
+		if (to >  from && count > to - from) {
+			return; // moved nested block into itself. prevent this by the UI!
+		}
+
+		List<Brick> block = fromScriptBrickList.subList(brickPositionFrom, endPosition + 1);
+		List<Brick> removedBlock = new ArrayList<>();
+		removedBlock.add(block.remove(0));
+
+		int[] tempTo = getScriptAndBrickIndexFromProject(to);
+		int scriptPositionTo = tempTo[0];
+		int brickPositionTo = tempTo[1];
+
+		Script toScript = currentSprite.getScript(scriptPositionTo);
+
+		while (block.size() > 0) {
+			removedBlock.add(block.remove(0));
+		}
+
+		int finalBrickPositionTo = brickPositionTo;
+		if (scriptPositionTo == scriptPositionFrom && to > from) {
+			finalBrickPositionTo -= count;
+		}
+		toScript.getBrickList().addAll(finalBrickPositionTo, removedBlock);
 	}
 
 	private void moveExistingProjectBrick(int from, int to) {
