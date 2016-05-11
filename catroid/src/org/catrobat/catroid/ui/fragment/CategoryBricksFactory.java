@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.AddItemToUserListBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
+import org.catrobat.catroid.content.bricks.AskQuestionBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -331,6 +332,7 @@ public class CategoryBricksFactory {
 	private List<Brick> setupLooksCategoryList(Context context) {
 		List<Brick> looksBrickList = new ArrayList<Brick>();
 
+		looksBrickList.add(new AskQuestionBrick(context.getString(R.string.brick_ask_question_default_value)));
 		looksBrickList.add(new SetLookBrick());
 		looksBrickList.add(new NextLookBrick());
 		looksBrickList.add(new CameraBrick());

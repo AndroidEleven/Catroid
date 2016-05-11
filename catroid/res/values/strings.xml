@@ -556,6 +556,9 @@
     <string name="brick_flash_on">on</string>
     <string name="brick_flash_off">off</string>
     <string name="brick_vibration">Vibrate for</string>
+    <string name="brick_ask_question">Ask</string>
+    <string name="brick_ask_question_store_answer_in_label">and store written answer in</string>
+    <string name="brick_ask_question_default_value">What\'s your name?</string>
     <!--  -->
 
 

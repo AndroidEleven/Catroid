@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
+import org.catrobat.catroid.content.bricks.AskQuestionBrick;
 import org.catrobat.catroid.content.bricks.Brick.BrickField;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -389,6 +390,10 @@ public class XStreamToSupportCatrobatLanguageVersion099AndBefore extends XStream
 		brickInfo = new BrickInfo(SetVariableBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("variableFormula", BrickField.VARIABLE);
 		brickInfoMap.put("setVariableBrick", brickInfo);
+
+		brickInfo = new BrickInfo(AskQuestionBrick.class.getSimpleName());
+		brickInfo.addBrickFieldToMap("askQuestion", BrickField.ASK);
+		brickInfoMap.put("askQuestionBrick", brickInfo);
 
 		brickInfo = new BrickInfo(SetVolumeToBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("volume", BrickField.VOLUME);
