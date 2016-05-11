@@ -48,6 +48,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -58,12 +60,16 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.DeadEndBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
+import org.catrobat.catroid.content.bricks.IfLogicEndBrick;
 import org.catrobat.catroid.content.bricks.NestingBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.UserBrick;
 import org.catrobat.catroid.content.bricks.UserBrickParameter;
 import org.catrobat.catroid.content.bricks.UserScriptDefinitionBrick;
+import org.catrobat.catroid.content.bricks.WhenBrick;
+import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.ui.BackPackActivity;
 import org.catrobat.catroid.ui.ScriptActivity;
 import org.catrobat.catroid.ui.ViewSwitchLock;
@@ -990,31 +996,42 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 		final int itemPosition = calculateItemPositionAndTouchPointY(view);
 		final List<CharSequence> items = new ArrayList<>();
 
-		if (brickList.get(itemPosition) instanceof ScriptBrick) {
+		Brick brick = brickList.get(itemPosition);
+
+		if (brick instanceof ScriptBrick) {
 			int scriptIndex = getScriptIndexFromProject(itemPosition);
 			ProjectManager.getInstance().setCurrentScript(sprite.getScript(scriptIndex));
 		}
 
-		if (!(brickList.get(itemPosition) instanceof DeadEndBrick)
-				&& !(brickList.get(itemPosition) instanceof ScriptBrick)) {
+		if (!(brick instanceof DeadEndBrick)
+				&& !(brick instanceof ScriptBrick)) {
 			items.add(context.getText(R.string.brick_context_dialog_move_brick));
 		}
-		if ((brickList.get(itemPosition) instanceof UserBrick)) {
+		if ((brick instanceof UserBrick)) {
 			items.add(context.getText(R.string.brick_context_dialog_show_source));
 		}
-		if (brickList.get(itemPosition) instanceof NestingBrick) {
+		if (brick instanceof NestingBrick) {
 			items.add(context.getText(R.string.brick_context_dialog_animate_bricks));
 		}
-		if (!(brickList.get(itemPosition) instanceof ScriptBrick)) {
+		if (!(brick instanceof ScriptBrick)) {
 			items.add(context.getText(R.string.brick_context_dialog_copy_brick));
 			items.add(context.getText(R.string.brick_context_dialog_delete_brick));
 		} else {
 			items.add(context.getText(R.string.brick_context_dialog_delete_script));
 			items.add(context.getText(R.string.backpack_add));
 		}
-		if (brickHasAFormula(brickList.get(itemPosition))) {
+		if (brickHasAFormula(brick)) {
 			items.add(context.getText(R.string.brick_context_dialog_formula_edit_brick));
 		}
+		if(!brick.isCommentedOut()) {
+			items.add(context.getText(R.string.brick_context_dialog_command_out));
+		}else {
+			items.add(context.getText(R.string.brick_context_dialog_command_in));
+		}
+
+
+
+
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
@@ -1066,6 +1083,12 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 						currentPosition++;
 					}
 					showNewGroupBackPackDialog();
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_command_out))) {
+					Brick brick = brickList.get(itemPosition);
+					setCommentStatusToBricksSince(brick, true, -1);
+				} else if (clickedItemText.equals(context.getText(R.string.brick_context_dialog_command_in))) {
+					Brick brick = brickList.get(itemPosition);
+					setCommentStatusToBricksSince(brick, false, -1);
 				}
 			}
 		});
@@ -1073,6 +1096,49 @@ public class BrickAdapter extends BaseAdapter implements DragAndDropListener, On
 
 		if ((selectMode == ListView.CHOICE_MODE_NONE)) {
 			alertDialog.show();
+		}
+	}
+
+	private void setCommentStatusToBricksSince(Brick brick, boolean commandStatus, int last_start_position){
+
+		setBrickCommentStatus(brick, commandStatus);
+
+		if(brick instanceof NestingBrick){
+
+			List<NestingBrick> nested_list = ((NestingBrick) brick).getAllNestingBrickParts(true);
+
+			int start_position = brickList.indexOf(nested_list.get(0));
+			int end_position   = brickList.indexOf(nested_list.get(nested_list.size() - 1));
+
+			if(start_position == last_start_position)
+				return;
+
+			for(int position = start_position; position <= end_position; position++){
+				Brick nextBrick = brickList.get(position);
+				setCommentStatusToBricksSince(nextBrick, commandStatus, start_position);
+			}
+		}else if(brick instanceof WhenBrick){
+
+		}
+	}
+
+	private void setWhenScriptCommentStatus(Brick brick, boolean commentStatus){
+		int start_position = brickList.indexOf(brick);
+		for(int index = start_position + 1; index < brickList.size(); index++){
+			Brick nextBrick = brickList.get(index);
+			if(nextBrick instanceof WhenBrick)
+				return;
+			setBrickCommentStatus(nextBrick, commentStatus);
+		}
+	}
+
+	private static void setBrickCommentStatus(Brick brick, boolean commandStatus){
+		if(commandStatus){
+			brick.setCommentedOutBoolean(true);
+			brick.setAllTextColors(0xFF222222);
+		}else{
+			brick.setCommentedOutBoolean(false);
+			brick.setAllTextColors(0xFFFFFFFF);
 		}
 	}
 

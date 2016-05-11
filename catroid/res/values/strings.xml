@@ -358,6 +358,8 @@
     <string name="brick_context_dialog_edit_brick">Edit Brick</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
     <string name="brick_context_dialog_delete_script">Delete Script</string>
+    <string name="brick_context_dialog_command_out">Command Out</string>
+    <string name="brick_context_dialog_command_in">Command In</string>
     <!--  -->
 
 

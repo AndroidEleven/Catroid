@@ -110,6 +110,8 @@ public abstract class Script implements Serializable {
 		ArrayList<SequenceAction> sequenceList = new ArrayList<SequenceAction>();
 		sequenceList.add(sequence);
 		for (int i = 0; i < brickList.size(); i++) {
+			if(brickList.get(i).isCommentedOut())
+				continue;
 			List<SequenceAction> actions = brickList.get(i).addActionToSequence(sprite,
 					sequenceList.get(sequenceList.size() - 1));
 			if (actions != null) {

@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
@@ -47,6 +48,8 @@ public abstract class BrickBaseType implements Brick {
 	protected transient int alphaValue = 255;
 	public transient boolean animationState = false;
 
+	protected boolean commentedOut;
+
 	@Override
 	public boolean isEqualBrick(Brick brick, Project mergeResult, Project current) {
 		if (this.getClass().equals(brick.getClass())) {
@@ -58,6 +61,11 @@ public abstract class BrickBaseType implements Brick {
 	@Override
 	public boolean isChecked() {
 		return checked;
+	}
+
+	@Override
+	public  boolean isCommentedOut() {
+		return commentedOut;
 	}
 
 	@Override
@@ -93,6 +101,11 @@ public abstract class BrickBaseType implements Brick {
 	@Override
 	public void setCheckedBoolean(boolean newValue) {
 		checked = newValue;
+	}
+
+	@Override
+	public void setCommentedOutBoolean(boolean commentStatus){
+		commentedOut = commentStatus;
 	}
 
 	@Override
@@ -156,6 +169,31 @@ public abstract class BrickBaseType implements Brick {
 	}
 
 	@Override
+	public void setAllTextColors(int color){
+		setAllTextColors(view, color);
+	}
+
+	private void setAllTextColors(View view, int color){
+		if(!(view instanceof  ViewGroup))
+			return;
+
+		ViewGroup viewGroup = (ViewGroup) view;
+
+		for(int index = 0; index < viewGroup.getChildCount(); index++) {
+			View child = viewGroup.getChildAt(index);
+
+			setAllTextColors(child, color);
+
+			if(!(child instanceof  TextView))
+				continue;
+
+			TextView text_view = (TextView) child;
+			text_view.setTextColor(color);
+
+		}
+	}
+
+	@Override
 	public int getRequiredResources() {
 		return NO_RESOURCES;
 	}
@@ -174,4 +212,10 @@ public abstract class BrickBaseType implements Brick {
 
 	@Override
 	public void storeDataForBackPack(Sprite sprite) { }
+
+	@Override
+	public View getView(){
+		return view;
+	}
+
 }

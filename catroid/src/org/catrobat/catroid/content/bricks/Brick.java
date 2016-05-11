@@ -107,7 +107,11 @@ public interface Brick extends Serializable, Cloneable {
 
 	boolean isChecked();
 
+	boolean isCommentedOut();
+
 	void setCheckedBoolean(boolean newValue);
+
+	void setCommentedOutBoolean(boolean commentStatus);
 
 	void setCheckboxView(int id);
 
@@ -121,7 +125,11 @@ public interface Brick extends Serializable, Cloneable {
 
 	void enableAllViews(View view, boolean enable);
 
+	void setAllTextColors(int color);
+
 	boolean isEqualBrick(Brick brick, Project mergeResult, Project current);
 
 	void storeDataForBackPack(Sprite sprite);
+
+	View getView();
 }
