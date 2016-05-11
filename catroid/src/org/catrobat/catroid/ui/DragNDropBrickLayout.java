@@ -37,6 +37,7 @@
 
 package org.catrobat.catroid.ui;
 
+import android.app.Notification;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
@@ -80,6 +81,8 @@ public class DragNDropBrickLayout extends BrickLayout {
 	private WeirdFloatingWindowData dragCursor2;
 	private LineBreakListener lineBreakListener;
 	private LinkedList<Integer> breaks;
+
+	private ZoomActionInterface zoomAction;
 
 	public DragAndDropBrickLayoutListener parent;
 
@@ -295,6 +298,11 @@ public class DragNDropBrickLayout extends BrickLayout {
 				if (dragging) {
 					drag(x, y);
 				}
+				if(ev.getPointerCount() == 2){
+					zoomAction.performZoomAction();
+				}
+
+
 				break;
 			case MotionEvent.ACTION_CANCEL:
 			case MotionEvent.ACTION_UP:
@@ -587,5 +595,10 @@ public class DragNDropBrickLayout extends BrickLayout {
 			this.width = width;
 			this.height = height;
 		}
+	}
+
+	public void setZoomAction(ZoomActionInterface zoomAction){
+		this.zoomAction = zoomAction;
+
 	}
 }

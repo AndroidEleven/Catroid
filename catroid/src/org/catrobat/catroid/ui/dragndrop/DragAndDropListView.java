@@ -32,6 +32,7 @@ import android.graphics.Paint.Style;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,6 +45,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.ui.ZoomActionInterface;
 import org.catrobat.catroid.ui.adapter.BrickAdapter;
 import org.catrobat.catroid.utils.Utils;
 
@@ -73,6 +75,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 	private boolean isScrolling;
 
 	private long blinkAnimationTimestamp;
+	private ZoomActionInterface zoomAction;
 
 	private DragAndDropListener dragAndDropListener;
 
@@ -158,6 +161,12 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		int action = event.getAction();
+		if(action == MotionEvent.ACTION_MOVE){
+			if(event.getPointerCount() == 2){
+				zoomAction.performZoomAction();
+			}
+		}
 
 		int x = (int) event.getX();
 		int y = (int) event.getY();
@@ -179,7 +188,7 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 		}
 
 		if (dragAndDropListener != null && dragView != null) {
-			int action = event.getAction();
+			//int action = event.getAction();
 			switch (action) {
 				case MotionEvent.ACTION_UP:
 				case MotionEvent.ACTION_CANCEL:
@@ -449,5 +458,10 @@ public class DragAndDropListView extends ListView implements OnLongClickListener
 
 	public void setIsScrolling() {
 		isScrolling = true;
+	}
+
+	public void setZoomAction(ZoomActionInterface zoomAction){
+		this.zoomAction = zoomAction;
+
 	}
 }
