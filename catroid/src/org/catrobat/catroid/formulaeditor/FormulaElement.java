@@ -354,6 +354,16 @@ public class FormulaElement implements Serializable {
 				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.toDegrees(Math.atan(doubleValueOfLeftChild));
 			case EXP:
 				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.exp(doubleValueOfLeftChild);
+			case POWER:
+				return ((doubleValueOfLeftChild == null || doubleValueOfRightChild == null)||
+				    (doubleValueOfLeftChild < 0 && doubleValueOfRightChild < 1 && doubleValueOfRightChild > -1)
+				    ) ? 0d :
+				    java.lang.Math.pow(doubleValueOfLeftChild, doubleValueOfRightChild);
+				//try {
+				//	return java.lang.Math.pow(doubleValueOfLeftChild, doubleValueOfRightChild);
+				//} catch (Exception e) {
+				//	return 0d;
+				//}
 			case FLOOR:
 				return doubleValueOfLeftChild == null ? 0d : java.lang.Math.floor(doubleValueOfLeftChild);
 			case CEIL:
