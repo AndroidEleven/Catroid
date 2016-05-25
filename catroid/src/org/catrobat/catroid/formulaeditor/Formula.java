@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 
 import java.io.Serializable;
+import java.lang.Math;
 
 public class Formula implements Serializable {
 
@@ -272,7 +273,19 @@ public class Formula implements Serializable {
 			} catch (InterpretationException interpretationException) {
 				return "ERROR";
 			}
-			return String.valueOf(interpretationResult);
+			if (interpretationResult >= 10000000)
+			{
+				String result;
+				Integer exponent = ((Double)Math.log10(interpretationResult)).intValue() - 6;
+				Integer multiplee = ((Double)(interpretationResult/Math.pow(10, exponent))).intValue();
+				result = (exponent == 1) ? multiplee + "*10" : multiplee + " * 10^" + exponent;
+//				result = (exponent == 1) ? interpretationResult.toString() : multiplee + " * 10^" + exponent;
+//				result = multiplee + " * 10^" + exponent;
+				return result;
+			}
+			else {
+				return String.valueOf(interpretationResult);
+			}
 		}
 	}
 }
