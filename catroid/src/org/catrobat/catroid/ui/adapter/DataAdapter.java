@@ -105,6 +105,7 @@ public class DataAdapter extends BaseAdapter implements ActionModeActivityAdapte
 		this.textViewId = textViewId;
 	}
 
+	//Function apperantly never used - Delete?
 	public int getItemLayout() {
 		return itemLayout;
 	}
