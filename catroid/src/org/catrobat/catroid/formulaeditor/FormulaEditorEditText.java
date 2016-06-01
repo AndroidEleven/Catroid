@@ -23,12 +23,11 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,7 +37,7 @@ import android.widget.EditText;
 import org.catrobat.catroid.formulaeditor.InternFormula.TokenSelectionType;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
-public class FormulaEditorEditText extends EditText implements OnTouchListener {
+public class FormulaEditorEditText extends EditText implements OnTouchListener{
 
 	private static final BackgroundColorSpan COLOR_ERROR = new BackgroundColorSpan(0xFFF00000);
 	private static final BackgroundColorSpan COLOR_HIGHLIGHT = new BackgroundColorSpan(0xFF33B5E5);
@@ -47,7 +46,6 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	private int absoluteCursorPosition = 0;
 	private InternFormula internFormula;
 	private Context context;
-	private Paint paint = new Paint();
 
 	final GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 		@Override
@@ -55,7 +53,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			internFormula.setCursorAndSelection(absoluteCursorPosition, true);
 			history.updateCurrentSelection(internFormula.getSelection());
 			highlightSelection();
-			return true;
+			return false;
 		}
 
 		@Override
@@ -63,7 +61,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			Layout layout = getLayout();
 			if (layout != null) {
 
-				float lineHeight = getLineHeight();
+				/*float lineHeight = getLineHeight();
 				int yCoordinate = (int) motion.getY();
 				int cursorY = 0;
 
@@ -110,7 +108,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 					absoluteCursorPosition = tempCursorPosition;
 				}
 				absoluteCursorPosition = absoluteCursorPosition > length() ? length() : absoluteCursorPosition;
-				setSelection(absoluteCursorPosition);
+				*/
+			/*	setSelection(absoluteCursorPosition);
 				postInvalidate();
 
 				internFormula.setCursorAndSelection(absoluteCursorPosition, false);
@@ -120,9 +119,11 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 				history.updateCurrentCursor(absoluteCursorPosition);
 
 				formulaEditorFragment.refreshFormulaPreviewString();
-				formulaEditorFragment.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+				formulaEditorFragment.updateButtonsOnKeyboardAndInvalidateOptionsMenu();*/
+				return false;
+
 			}
-			return true;
+			return false;
 		}
 	});
 	private boolean doNotMoveCursorOnTab = false;
@@ -142,8 +143,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		this.setOnTouchListener(this);
 		this.setLongClickable(false);
 		this.setSelectAllOnFocus(false);
-		this.setCursorVisible(false);
-		cursorAnimation.run();
+		this.setCursorVisible(true);
+
 	}
 
 	public void enterNewFormula(InternFormulaState internFormulaState) {
@@ -169,42 +170,18 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		updateTextAndCursorFromInternFormula();
 
 		internFormula.selectWholeFormula();
-		highlightSelection();
+		//setSelection(absoluteCursorPosition);
+		//highlightSelection();
 
 		history.push(internFormula.getInternFormulaState());
 		String resultingText = updateTextAndCursorFromInternFormula();
-		setSelection(absoluteCursorPosition);
+
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
 	}
 
-	private Runnable cursorAnimation = new Runnable() {
-		@Override
-		public void run() {
-			paint.setColor((paint.getColor() == 0x00000000) ? 0xff000000 : 0x00000000);
-			invalidate();
-			postDelayed(cursorAnimation, 500);
-		}
-	};
-
-	@Override
-	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
-		absoluteCursorPosition = absoluteCursorPosition > length() ? length() : absoluteCursorPosition;
-		paint.setStrokeWidth(3);
-
-		Layout layout = getLayout();
-		if (layout != null) {
-			int line = layout.getLineForOffset(absoluteCursorPosition);
-			float xCoordinate = layout.getPrimaryHorizontal(absoluteCursorPosition) + getPaddingLeft();
-			float startYCoordinate = layout.getLineBaseline(line) + layout.getLineAscent(line);
-			float endYCoordinate = layout.getLineBaseline(line) + layout.getLineAscent(line) + getTextSize();
-			endYCoordinate += line == 0 ? 5 : 0; // First line in FE is a little bit higher so we need a bigger cursor too.
-
-			canvas.drawLine(xCoordinate, startYCoordinate, xCoordinate, endYCoordinate, paint);
-		}
-	}
 
 	public void highlightSelection() {
+
 		Spannable highlightSpan = this.getText();
 		highlightSpan.removeSpan(COLOR_HIGHLIGHT);
 		highlightSpan.removeSpan(COLOR_ERROR);
@@ -225,11 +202,13 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 			highlightSpan.setSpan(COLOR_ERROR, selectionStartIndex, selectionEndIndex,
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
+
+		//setSelection(selectionStartIndex, selectionEndIndex);
 	}
 
 	public void setParseErrorCursorAndSelection() {
 		internFormula.selectParseErrorTokenAndSetCursor();
-		highlightSelection();
+		//highlightSelection();
 		setSelection(absoluteCursorPosition);
 	}
 
@@ -239,6 +218,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		String resultingText = updateTextAndCursorFromInternFormula();
 		setSelection(absoluteCursorPosition);
 		formulaEditorFragment.refreshFormulaPreviewString(resultingText);
+
 	}
 
 	public String getStringFromInternFormula() {
@@ -297,11 +277,15 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	private String updateTextAndCursorFromInternFormula() {
 		String newExternFormulaString = internFormula.getExternFormulaString();
-		setText(newExternFormulaString);
 		absoluteCursorPosition = internFormula.getExternCursorPosition();
+
+		setTextKeepState(newExternFormulaString);
+
 		if (absoluteCursorPosition > length()) {
 			absoluteCursorPosition = length();
 		}
+
+		setSelection(absoluteCursorPosition);
 
 		highlightSelection();
 
@@ -314,9 +298,69 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	}
 
 	@Override
+	protected void onSelectionChanged(int selStart, int selEnd) {
+
+
+		if(selStart == selEnd)
+		{
+			Log.d("CURSER", "Position: " + selStart);
+		}
+		else{
+			Log.d("CURSER", "Positionstart: " + selStart + " posend: " +selEnd);
+		}
+
+		Layout layout = getLayout();
+		if (layout != null) {
+			absoluteCursorPosition = selStart;
+
+
+			internFormula.setCursorAndSelection(absoluteCursorPosition, false);
+
+			highlightSelection();
+			history.updateCurrentSelection(internFormula.getSelection());
+			history.updateCurrentCursor(absoluteCursorPosition);
+
+			formulaEditorFragment.refreshFormulaPreviewString();
+			formulaEditorFragment.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+		}
+
+	//	absoluteCursorPosition = selStart;
+	//	setSelection(absoluteCursorPosition);
+
+	//	internFormula.setCursorAndSelection(absoluteCursorPosition, false);
+
+//	highlightSelection();
+	//	history.updateCurrentSelection(internFormula.getSelection());
+	//	history.updateCurrentCursor(absoluteCursorPosition);
+
+	//	formulaEditorFragment.refreshFormulaPreviewString();
+		//formulaEditorFragment.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+	}
+
+	/*@Override
+	public void onSelectionChanged(int start, int end) {
+
+
+		int selectionStartIndex = internFormula.getExternSelectionStartIndex();
+		int selectionEndIndex = internFormula.getExternSelectionEndIndex();
+		setSelection(selectionStartIndex, selectionEndIndex);
+
+	//	CharSequence text = getText();
+	//	if (text != null) {
+	//		if (start != text.length() || end != text.length()) {
+
+	//			setSelection(text.length(), text.length());
+	//			return;
+	//		}
+	//	}
+
+	//	super.onSelectionChanged(start, end);
+	}*/
+
+	/*@Override
 	public boolean onCheckIsTextEditor() {
 		return false;
-	}
+	}*/
 
 	public InternFormulaParser getFormulaParser() {
 		return internFormula.getInternFormulaParser();
