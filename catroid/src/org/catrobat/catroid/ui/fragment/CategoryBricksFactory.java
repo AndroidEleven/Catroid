@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -160,7 +161,7 @@ public class CategoryBricksFactory {
 		} else if (category.equals(context.getString(R.string.category_user_bricks))) {
 			tempList = setupUserBricksCategoryList();
 		} else if (category.equals(context.getString(R.string.category_data))) {
-			tempList = setupDataCategoryList();
+			tempList = setupDataCategoryList(context);
 		} else if (category.equals(context.getString(R.string.category_lego_nxt))) {
 			tempList = setupLegoNxtCategoryList();
 		} else if (category.equals(context.getString(R.string.category_arduino))) {
@@ -197,17 +198,22 @@ public class CategoryBricksFactory {
 
 		controlBrickList.add(new BroadcastReceiverBrick(broadcastMessage));
 		controlBrickList.add(new BroadcastBrick(broadcastMessage));
-		controlBrickList.add(new BroadcastWaitBrick(broadcastMessage));
 
-		controlBrickList.add(new CollisionReceiverBrick("object"));
+		if (!SettingsActivity.isBeginnerModeSharedPreferenceEnabled(context)) {
+			controlBrickList.add(new BroadcastWaitBrick(broadcastMessage));
+			controlBrickList.add(new CollisionReceiverBrick("object"));
+			controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
+		}
 
-		controlBrickList.add(new NoteBrick(context.getString(R.string.brick_note_default_value)));
 		controlBrickList.add(new ForeverBrick());
-		FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
-		defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
-		defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
-		controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
-		controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
+
+		if (!SettingsActivity.isBeginnerModeSharedPreferenceEnabled(context)) {
+			FormulaElement defaultIf = new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.SMALLER_THAN.toString(), null);
+			defaultIf.setLeftChild(new FormulaElement(ElementType.NUMBER, "1", null));
+			defaultIf.setRightChild(new FormulaElement(ElementType.NUMBER, "2", null));
+			controlBrickList.add(new IfLogicBeginBrick(new Formula(defaultIf)));
+			controlBrickList.add(new RepeatBrick(BrickValues.REPEAT));
+		}
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
@@ -260,39 +266,44 @@ public class CategoryBricksFactory {
 	private List<Brick> setupMotionCategoryList(Sprite sprite, Context context) {
 		List<Brick> motionBrickList = new ArrayList<Brick>();
 		motionBrickList.add(new PlaceAtBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
-		motionBrickList.add(new SetXBrick(BrickValues.X_POSITION));
-		motionBrickList.add(new SetYBrick(BrickValues.Y_POSITION));
-		motionBrickList.add(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
-		motionBrickList.add(new ChangeYByNBrick(BrickValues.CHANGE_Y_BY));
-
-		if (!isBackground(sprite)) {
-			motionBrickList.add(new IfOnEdgeBounceBrick());
+		if (!SettingsActivity.isBeginnerModeSharedPreferenceEnabled(context)) {
+			motionBrickList.add(new SetXBrick(BrickValues.X_POSITION));
+			motionBrickList.add(new SetYBrick(BrickValues.Y_POSITION));
+			motionBrickList.add(new ChangeXByNBrick(BrickValues.CHANGE_X_BY));
+			motionBrickList.add(new ChangeYByNBrick(BrickValues.CHANGE_Y_BY));
 		}
 
+		motionBrickList.add(new IfOnEdgeBounceBrick());
 		motionBrickList.add(new MoveNStepsBrick(BrickValues.MOVE_STEPS));
 		motionBrickList.add(new TurnLeftBrick(BrickValues.TURN_DEGREES));
 		motionBrickList.add(new TurnRightBrick(BrickValues.TURN_DEGREES));
-		motionBrickList.add(new PointInDirectionBrick(Direction.RIGHT));
-		motionBrickList.add(new PointToBrick(null));
+
+		if (!SettingsActivity.isBeginnerModeSharedPreferenceEnabled(context)) {
+			motionBrickList.add(new PointInDirectionBrick(Direction.RIGHT));
+			motionBrickList.add(new PointToBrick(null));
+		}
+
 		motionBrickList.add(new GlideToBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION,
 				BrickValues.GLIDE_SECONDS));
 
-		if (!isBackground(sprite)) {
-			motionBrickList.add(new GoNStepsBackBrick(BrickValues.GO_BACK));
-			motionBrickList.add(new ComeToFrontBrick());
+		if (!SettingsActivity.isBeginnerModeSharedPreferenceEnabled(context)) {
+			if (!isBackground(sprite)) {
+				motionBrickList.add(new GoNStepsBackBrick(BrickValues.GO_BACK));
+				motionBrickList.add(new ComeToFrontBrick());
+			}
+
+			motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
+
+			motionBrickList.add(new SetPhysicsObjectTypeBrick(BrickValues.PHYSIC_TYPE));
+			motionBrickList.add(new SetVelocityBrick(BrickValues.PHYSIC_VELOCITY));
+			motionBrickList.add(new TurnLeftSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
+			motionBrickList.add(new TurnRightSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
+			motionBrickList.add(new SetGravityBrick(BrickValues.PHYSIC_GRAVITY));
+			motionBrickList.add(new SetMassBrick(BrickValues.PHYSIC_MASS));
+			motionBrickList.add(new SetBounceBrick(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
+			motionBrickList.add(new SetFrictionBrick(BrickValues.PHYSIC_FRICTION * 100));
+
 		}
-
-		motionBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
-
-		motionBrickList.add(new SetPhysicsObjectTypeBrick(BrickValues.PHYSIC_TYPE));
-		motionBrickList.add(new SetVelocityBrick(BrickValues.PHYSIC_VELOCITY));
-		motionBrickList.add(new TurnLeftSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
-		motionBrickList.add(new TurnRightSpeedBrick(BrickValues.PHYSIC_TURN_DEGREES));
-		motionBrickList.add(new SetGravityBrick(BrickValues.PHYSIC_GRAVITY));
-		motionBrickList.add(new SetMassBrick(BrickValues.PHYSIC_MASS));
-		motionBrickList.add(new SetBounceBrick(BrickValues.PHYSIC_BOUNCE_FACTOR * 100));
-		motionBrickList.add(new SetFrictionBrick(BrickValues.PHYSIC_FRICTION * 100));
-
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			motionBrickList.add(new PhiroMotorMoveForwardBrick(PhiroMotorMoveForwardBrick.Motor.MOTOR_LEFT,
 					BrickValues.PHIRO_SPEED));
@@ -308,16 +319,17 @@ public class CategoryBricksFactory {
 		List<Brick> soundBrickList = new ArrayList<Brick>();
 		soundBrickList.add(new PlaySoundBrick());
 		soundBrickList.add(new StopAllSoundsBrick());
-		soundBrickList.add(new SetVolumeToBrick(BrickValues.SET_VOLUME_TO));
+		if (!SettingsActivity.isBeginnerModeSharedPreferenceEnabled(context)) {
+			soundBrickList.add(new SetVolumeToBrick(BrickValues.SET_VOLUME_TO));
 
-		// workaround to set a negative default value for a Brick
-		float positiveDefaultValueChangeVolumeBy = Math.abs(BrickValues.CHANGE_VOLUME_BY);
-		FormulaElement defaultValueChangeVolumeBy = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(),
-				null, null, new FormulaElement(ElementType.NUMBER, String.valueOf(positiveDefaultValueChangeVolumeBy),
-				null)
-		);
-		soundBrickList.add(new ChangeVolumeByNBrick(new Formula(defaultValueChangeVolumeBy)));
-
+			// workaround to set a negative default value for a Brick
+			float positiveDefaultValueChangeVolumeBy = Math.abs(BrickValues.CHANGE_VOLUME_BY);
+			FormulaElement defaultValueChangeVolumeBy = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(),
+					null, null, new FormulaElement(ElementType.NUMBER, String.valueOf(positiveDefaultValueChangeVolumeBy),
+					null)
+			);
+			soundBrickList.add(new ChangeVolumeByNBrick(new Formula(defaultValueChangeVolumeBy)));
+		}
 		soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
@@ -333,20 +345,30 @@ public class CategoryBricksFactory {
 
 		looksBrickList.add(new SetLookBrick());
 		looksBrickList.add(new NextLookBrick());
-		looksBrickList.add(new CameraBrick());
-		looksBrickList.add(new ChooseCameraBrick());
+
+		if (!SettingsActivity.isBeginnerModeSharedPreferenceEnabled(context)) {
+			looksBrickList.add(new CameraBrick());
+			looksBrickList.add(new ChooseCameraBrick());
+		}
+
 		looksBrickList.add(new SetSizeToBrick(BrickValues.SET_SIZE_TO));
 		looksBrickList.add(new ChangeSizeByNBrick(BrickValues.CHANGE_SIZE_BY));
 		looksBrickList.add(new HideBrick());
 		looksBrickList.add(new ShowBrick());
 		looksBrickList.add(new SetTransparencyBrick(BrickValues.SET_TRANSPARENCY));
 		looksBrickList.add(new ChangeTransparencyByNBrick(BrickValues.CHANGE_TRANSPARENCY_EFFECT));
-		looksBrickList.add(new SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO));
-		looksBrickList.add(new ChangeBrightnessByNBrick(BrickValues.CHANGE_BRITHNESS_BY));
+
+		if (!SettingsActivity.isBeginnerModeSharedPreferenceEnabled(context)) {
+			looksBrickList.add(new SetBrightnessBrick(BrickValues.SET_BRIGHTNESS_TO));
+			looksBrickList.add(new ChangeBrightnessByNBrick(BrickValues.CHANGE_BRITHNESS_BY));
+		}
+
 		looksBrickList.add(new SetColorBrick(BrickValues.SET_COLOR_TO));
 		looksBrickList.add(new ChangeColorByNBrick(BrickValues.CHANGE_COLOR_BY));
-		looksBrickList.add(new ClearGraphicEffectBrick());
-		looksBrickList.add(new FlashBrick());
+		if (!SettingsActivity.isBeginnerModeSharedPreferenceEnabled(context)) {
+			looksBrickList.add(new ClearGraphicEffectBrick());
+			looksBrickList.add(new FlashBrick());
+		}
 
 		if (SettingsActivity.isPhiroSharedPreferenceEnabled(context)) {
 			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH, BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
@@ -355,16 +377,18 @@ public class CategoryBricksFactory {
 		return looksBrickList;
 	}
 
-	private List<Brick> setupDataCategoryList() {
+	private List<Brick> setupDataCategoryList(Context context) {
 		List<Brick> dataBrickList = new ArrayList<Brick>();
 		dataBrickList.add(new SetVariableBrick(BrickValues.SET_VARIABLE));
 		dataBrickList.add(new ChangeVariableBrick(BrickValues.CHANGE_VARIABLE));
 		dataBrickList.add(new ShowTextBrick(BrickValues.X_POSITION, BrickValues.Y_POSITION));
 		dataBrickList.add(new HideTextBrick());
-		dataBrickList.add(new AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST));
-		dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
-		dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
-		dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE, BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
+		if (!SettingsActivity.isBeginnerModeSharedPreferenceEnabled(context)) {
+			dataBrickList.add(new AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST));
+			dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
+			dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE, BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
+			dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE, BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
+		}
 		return dataBrickList;
 	}
 

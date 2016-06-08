@@ -100,4 +100,51 @@ public class SettingsActivityTest extends BaseActivityInstrumentationTestCase<Ma
 		solo.sleep(200);
 		assertTrue("Lego brick category is not showing!", solo.searchText(categoryLegoNXTLabel));
 	}
+
+	public void testBeginnerModes() {
+		String mindstormsPreferenceString = solo.getString(R.string.preference_title_enable_beginner_mode_bricks);
+		String categoryControl = solo.getString(R.string.category_control);
+		String broadcastAndWaitBrick = solo.getString(R.string.brick_broadcast_wait);
+
+		solo.waitForActivity(MainMenuActivity.class);
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.sleep(200);
+		ListView fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
+		solo.sleep(200);
+		solo.clickOnText(categoryControl);
+		solo.scrollListToBottom(fragmentListView);
+		solo.sleep(200);
+
+		assertTrue("Brick Broadcast and Wait is not showing!", solo.searchText(broadcastAndWaitBrick));
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+
+		solo.clickOnMenuItem(settings);
+		solo.waitForActivity(SettingsActivity.class.getSimpleName());
+
+		assertTrue("Wrong title", solo.searchText(solo.getString(R.string.preference_title)));
+
+		solo.clickOnText(mindstormsPreferenceString); // submenu
+		solo.waitForText(mindstormsPreferenceString);
+
+		solo.goBack();
+		solo.goBack();
+		solo.waitForActivity(MainMenuActivity.class.getSimpleName());
+		UiTestUtils.getIntoScriptActivityFromMainMenu(solo);
+		UiTestUtils.clickOnBottomBar(solo, R.id.button_add);
+		solo.sleep(200);
+		fragmentListView = solo.getCurrentViews(ListView.class).get(
+				solo.getCurrentViews(ListView.class).size() - 1);
+		solo.clickOnText(categoryControl);
+		solo.sleep(200);
+		solo.scrollListToBottom(fragmentListView);
+		solo.scrollDown();
+		solo.sleep(200);
+		assertFalse("Brick Broadcast and Wait is showing!", solo.searchText(broadcastAndWaitBrick));
+	}
 }

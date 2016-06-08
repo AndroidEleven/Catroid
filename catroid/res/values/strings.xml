@@ -107,6 +107,8 @@
     <string name="preference_title_drone_config_properties">Drone configuration properties</string>
     <string name="preference_title_enable_phiro_bricks">Phiro bricks</string>
     <string name="preference_description_phiro_bricks">Allow to control Phiro robots</string>
+    <string name="preference_title_enable_beginner_mode_bricks">Beginner Mode</string>
+    <string name="preference_description_beginner_mode_bricks">Show less bricks</string>
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
     <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
     <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
