@@ -113,7 +113,9 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 	private void doubleClickOnFormulaEditorEditText() {
 		Rect globalVisibleRect = new Rect();
 		solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getGlobalVisibleRect(globalVisibleRect);
-		solo.clickOnScreen(30, globalVisibleRect.top + 10, 2);
+		solo.clickOnScreen(30, globalVisibleRect.centerY(), 1);
+		solo.sleep(100);
+		solo.clickOnScreen(30, globalVisibleRect.centerY(), 1);
 	}
 
 	private void clickOnFormulaEditorEditText() {
@@ -348,7 +350,7 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_function));
 		solo.clickOnText(getActivity().getString(R.string.formula_editor_function_rand));
 
-		setAbsoluteCursorPosition(functionRandomLength + 5);
+		setAbsoluteCursorPosition(functionRandomLength + 9);
 
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		assertEquals("Function deletion failed!", " ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
@@ -623,7 +625,9 @@ public class FormulaEditorEditTextTest extends BaseActivityInstrumentationTestCa
 		solo.sleep(500);
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
 		solo.clickOnView(solo.getView(R.id.formula_editor_keyboard_delete));
-		assertEquals("Text not deleted correctly", "8 + 3 ", solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
+		String expectedString = "8 + " + getActivity().getString(R.string.formula_editor_function_rand) + "( 0 , 2 ) "
+				+ "3 ";
+		assertEquals("Text not deleted correctly", expectedString, solo.getEditText(FORMULA_EDITOR_EDIT_TEXT_INDEX).getText()
 				.toString());
 	}
 
