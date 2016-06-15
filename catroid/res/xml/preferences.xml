@@ -161,4 +161,279 @@
         android:summary="@string/preference_description_phiro_bricks"
         android:title="@string/preference_title_enable_phiro_bricks" />
 
+    <PreferenceScreen
+        android:key="setting_accessibilty_profile"
+        android:summary="@string/preference_description_accessibilty_profile"
+        android:title="@string/preference_title_accessibility_profile">
+
+        <PreferenceCategory android:title="@string/preference_accessibility_active_user_profile"/>
+        <PreferenceCategory android:title="@string/preference_accessibility_profiles"/>
+            <PreferenceScreen android:key="accessibility_profile_1"
+                android:title="@string/accessibility_profile_1_title"
+                android:icon="@drawable/com_facebook_profile_picture_blank_square"
+                android:summary="@string/accessibility_profile_1_summary">
+                <PreferenceCategory android:title="@string/preference_accessibility_active_user_settings"
+                    android:icon="@drawable/com_facebook_profile_picture_blank_square" />
+                <PreferenceCategory android:title="@string/preference_accessibility_user_settings">
+                    <CheckBoxPreference
+                        android:defaultValue="true"
+                        android:key="profile1_largeText"
+                        android:summary="@string/accessibility_profile_large_text_summary"
+                        android:title="@string/accessibility_profile_large_text_title" />
+                    <CheckBoxPreference
+                        android:defaultValue="false"
+                        android:key="profile1_largeText"
+                        android:summary="@string/accessibility_profile_high_contrast_summary"
+                        android:title="@string/accessibility_profile_high_contrast_title" />
+                    <PreferenceScreen
+                        android:key="profile1_fontface"
+                        android:summary="@string/accessibility_profile_fontface_summary"
+                        android:title="@string/accessibility_profile_fontface_title" >
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile1_fontface_standard"
+                            android:summary="@string/accessibility_profile_fontface_standard_summary"
+                            android:title="@string/accessibility_profile_fontface_standard_title" />
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile1_fontface_serif"
+                            android:summary="@string/accessibility_profile_fontface_serif_summary"
+                            android:title="@string/accessibility_profile_fontface_serif_title" />
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile1_fontface_dyslexic"
+                            android:summary="@string/accessibility_profile_fontface_dyslexic_summary"
+                            android:title="@string/accessibility_profile_fontface_dyslexic_title" />
+                    </PreferenceScreen>
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="profile1_largeelementspacing"
+                    android:summary="@string/accessibility_profile_largeelementspacing_summary"
+                    android:title="@string/accessibility_profile_largeelementspacing_title" />
+                </PreferenceCategory>>
+            </PreferenceScreen>
+            <PreferenceScreen android:key="accessibility_profile_2"
+                android:title="@string/accessibility_profile_2_title"
+                android:icon="@drawable/com_facebook_profile_picture_blank_square"
+                android:summary="@string/accessibility_profile_2_summary">
+                <PreferenceCategory android:title="@string/preference_accessibility_active_user_settings"
+                    android:icon="@drawable/com_facebook_profile_picture_blank_square" />
+                <PreferenceCategory android:title="@string/preference_accessibility_user_settings">
+                    <CheckBoxPreference
+                        android:defaultValue="true"
+                        android:key="profile2_largeText"
+                        android:summary="@string/accessibility_profile_large_text_summary"
+                        android:title="@string/accessibility_profile_large_text_title" />
+                    <CheckBoxPreference
+                        android:defaultValue="false"
+                        android:key="profile1_largeText"
+                        android:summary="@string/accessibility_profile_high_contrast_summary"
+                        android:title="@string/accessibility_profile_high_contrast_title" />
+                    <PreferenceScreen
+                        android:key="profile1_fontface"
+                        android:summary="@string/accessibility_profile_fontface_summary"
+                        android:title="@string/accessibility_profile_fontface_title" >
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile2_fontface_standard"
+                            android:summary="@string/accessibility_profile_fontface_standard_summary"
+                            android:title="@string/accessibility_profile_fontface_standard_title" />
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile1_fontface_serif"
+                            android:summary="@string/accessibility_profile_fontface_serif_summary"
+                            android:title="@string/accessibility_profile_fontface_serif_title" />
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile2_fontface_dyslexic"
+                            android:summary="@string/accessibility_profile_fontface_dyslexic_summary"
+                            android:title="@string/accessibility_profile_fontface_dyslexic_title" />
+                    </PreferenceScreen>
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="profile1_largeelementspacing"
+                    android:summary="@string/accessibility_profile_largeelementspacing_summary"
+                    android:title="@string/accessibility_profile_largeelementspacing_title" />
+                </PreferenceCategory>>
+            </PreferenceScreen>
+            <PreferenceScreen android:key="accessibility_profile_3"
+                android:title="@string/accessibility_profile_3_title"
+                android:icon="@drawable/com_facebook_profile_picture_blank_square"
+                android:summary="@string/accessibility_profile_3_summary">
+                <PreferenceCategory android:title="@string/preference_accessibility_active_user_settings"
+                    android:icon="@drawable/com_facebook_profile_picture_blank_square" />
+                <PreferenceCategory android:title="@string/preference_accessibility_user_settings">
+                    <CheckBoxPreference
+                        android:defaultValue="true"
+                        android:key="profile3_largeText"
+                        android:summary="@string/accessibility_profile_large_text_summary"
+                        android:title="@string/accessibility_profile_large_text_title" />
+                    <CheckBoxPreference
+                        android:defaultValue="false"
+                        android:key="profile3_largeText"
+                        android:summary="@string/accessibility_profile_high_contrast_summary"
+                        android:title="@string/accessibility_profile_high_contrast_title" />
+                    <PreferenceScreen
+                        android:key="profile3_fontface"
+                        android:summary="@string/accessibility_profile_fontface_summary"
+                        android:title="@string/accessibility_profile_fontface_title" >
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile3_fontface_standard"
+                            android:summary="@string/accessibility_profile_fontface_standard_summary"
+                            android:title="@string/accessibility_profile_fontface_standard_title" />
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile3_fontface_serif"
+                            android:summary="@string/accessibility_profile_fontface_serif_summary"
+                            android:title="@string/accessibility_profile_fontface_serif_title" />
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile3_fontface_dyslexic"
+                            android:summary="@string/accessibility_profile_fontface_dyslexic_summary"
+                            android:title="@string/accessibility_profile_fontface_dyslexic_title" />
+                    </PreferenceScreen>
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="profile3_largeelementspacing"
+                    android:summary="@string/accessibility_profile_largeelementspacing_summary"
+                    android:title="@string/accessibility_profile_largeelementspacing_title" />
+                </PreferenceCategory>>
+            </PreferenceScreen>
+            <PreferenceScreen android:key="accessibility_profile_4"
+                android:title="@string/accessibility_profile_4_title"
+                android:icon="@drawable/com_facebook_profile_picture_blank_square"
+                android:summary="@string/accessibility_profile_4_summary">
+                <PreferenceCategory android:title="@string/preference_accessibility_active_user_settings"
+                    android:icon="@drawable/com_facebook_profile_picture_blank_square" />
+                <PreferenceCategory android:title="@string/preference_accessibility_user_settings">
+                    <CheckBoxPreference
+                        android:defaultValue="true"
+                        android:key="profile4_largeText"
+                        android:summary="@string/accessibility_profile_large_text_summary"
+                        android:title="@string/accessibility_profile_large_text_title" />
+                    <CheckBoxPreference
+                        android:defaultValue="false"
+                        android:key="profile4_largeText"
+                        android:summary="@string/accessibility_profile_high_contrast_summary"
+                        android:title="@string/accessibility_profile_high_contrast_title" />
+                    <PreferenceScreen
+                        android:key="profile4_fontface"
+                        android:summary="@string/accessibility_profile_fontface_summary"
+                        android:title="@string/accessibility_profile_fontface_title" >
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile4_fontface_standard"
+                            android:summary="@string/accessibility_profile_fontface_standard_summary"
+                            android:title="@string/accessibility_profile_fontface_standard_title" />
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile4_fontface_serif"
+                            android:summary="@string/accessibility_profile_fontface_serif_summary"
+                            android:title="@string/accessibility_profile_fontface_serif_title" />
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile4_fontface_dyslexic"
+                            android:summary="@string/accessibility_profile_fontface_dyslexic_summary"
+                            android:title="@string/accessibility_profile_fontface_dyslexic_title" />
+                    </PreferenceScreen>
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="profile4_largeelementspacing"
+                    android:summary="@string/accessibility_profile_largeelementspacing_summary"
+                    android:title="@string/accessibility_profile_largeelementspacing_title" />
+                </PreferenceCategory>>
+            </PreferenceScreen>
+            <PreferenceScreen android:key="accessibility_profile_5"
+                android:title="@string/accessibility_profile_5_title"
+                android:icon="@drawable/com_facebook_profile_picture_blank_square"
+                android:summary="@string/accessibility_profile_5_summary">
+                <PreferenceCategory android:title="@string/preference_accessibility_active_user_settings"
+                    android:icon="@drawable/com_facebook_profile_picture_blank_square" />
+                <PreferenceCategory android:title="@string/preference_accessibility_user_settings">
+                    <CheckBoxPreference
+                        android:defaultValue="true"
+                        android:key="profile5_largeText"
+                        android:summary="@string/accessibility_profile_large_text_summary"
+                        android:title="@string/accessibility_profile_large_text_title" />
+                    <CheckBoxPreference
+                        android:defaultValue="false"
+                        android:key="profile5_largeText"
+                        android:summary="@string/accessibility_profile_high_contrast_summary"
+                        android:title="@string/accessibility_profile_high_contrast_title" />
+                    <PreferenceScreen
+                        android:key="profile5_fontface"
+                        android:summary="@string/accessibility_profile_fontface_summary"
+                        android:title="@string/accessibility_profile_fontface_title" >
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile5_fontface_standard"
+                            android:summary="@string/accessibility_profile_fontface_standard_summary"
+                            android:title="@string/accessibility_profile_fontface_standard_title" />
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile5_fontface_serif"
+                            android:summary="@string/accessibility_profile_fontface_serif_summary"
+                            android:title="@string/accessibility_profile_fontface_serif_title" />
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile5_fontface_dyslexic"
+                            android:summary="@string/accessibility_profile_fontface_dyslexic_summary"
+                            android:title="@string/accessibility_profile_fontface_dyslexic_title" />
+                    </PreferenceScreen>
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="profile5_largeelementspacing"
+                    android:summary="@string/accessibility_profile_largeelementspacing_summary"
+                    android:title="@string/accessibility_profile_largeelementspacing_title" />
+                </PreferenceCategory>>
+            </PreferenceScreen>
+            <PreferenceScreen android:key="accessibility_profile_6"
+                android:title="@string/accessibility_profile_6_title"
+                android:icon="@drawable/com_facebook_profile_picture_blank_square"
+                android:summary="@string/accessibility_profile_6_summary">
+                <PreferenceCategory android:title="@string/preference_accessibility_active_user_settings"
+                    android:icon="@drawable/com_facebook_profile_picture_blank_square" />
+                <PreferenceCategory android:title="@string/preference_accessibility_user_settings">
+                    <CheckBoxPreference
+                        android:defaultValue="true"
+                        android:key="profile6_largeText"
+                        android:summary="@string/accessibility_profile_large_text_summary"
+                        android:title="@string/accessibility_profile_large_text_title" />
+                    <CheckBoxPreference
+                        android:defaultValue="false"
+                        android:key="profile6_largeText"
+                        android:summary="@string/accessibility_profile_high_contrast_summary"
+                        android:title="@string/accessibility_profile_high_contrast_title" />
+                    <PreferenceScreen
+                        android:key="profile6_fontface"
+                        android:summary="@string/accessibility_profile_fontface_summary"
+                        android:title="@string/accessibility_profile_fontface_title" >
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile6_fontface_standard"
+                            android:summary="@string/accessibility_profile_fontface_standard_summary"
+                            android:title="@string/accessibility_profile_fontface_standard_title" />
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile6_fontface_serif"
+                            android:summary="@string/accessibility_profile_fontface_serif_summary"
+                            android:title="@string/accessibility_profile_fontface_serif_title" />
+                        <CheckBoxPreference
+                            android:defaultValue="false"
+                            android:key="profile6_fontface_dyslexic"
+                            android:summary="@string/accessibility_profile_fontface_dyslexic_summary"
+                            android:title="@string/accessibility_profile_fontface_dyslexic_title" />
+                    </PreferenceScreen>
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="profile6_largeelementspacing"
+                    android:summary="@string/accessibility_profile_largeelementspacing_summary"
+                    android:title="@string/accessibility_profile_largeelementspacing_title" />
+                </PreferenceCategory>>
+            </PreferenceScreen>
+
+
+    </PreferenceScreen>
+
 </PreferenceScreen>

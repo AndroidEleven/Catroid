@@ -110,6 +110,49 @@
     <string name="preference_title_enable_arduino_bricks">Arduino bricks</string>
     <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
     <string name="preference_description_nfc_bricks">Allow to use NFC tags in programs</string>
+
+    <!-- -->
+    <string name="preference_description_accessibilty_profile">Choose a user profile and configurate your personal
+        settings for the Pocket-Code-UI</string>
+    <string name="preference_title_accessibility_profile">Accessibility</string>
+    <string name="preference_accessibility_profiles">Profiles</string>
+    <string name="preference_accessibility_active_user_profile">Active User Profile</string>>
+    <string name="preference_accessibility_active_user_settings">Active User Settings</string>>
+    <string name="preference_accessibility_user_settings">Settings</string>>
+    <string name="accessibility_profile_large_text_title">Large Text</string>>
+    <string name="accessibility_profile_large_text_summary">The large text setting increases the text size of
+        Pocket Code to the largest available.</string>>
+    <string name="accessibility_profile_high_contrast_title">High Contrast</string>>
+    <string name="accessibility_profile_high_contrast_summary">Hight contrast makes text easier to read on your
+        device.</string>>
+    <string name="accessibility_profile_fontface_title">Fontface</string>>
+    <string name="accessibility_profile_fontface_summary">Fontface allows you to choose a font style you
+        prefer.</string>>
+    <string name="accessibility_profile_fontface_standard_title">Standard</string>
+    <string name="accessibility_profile_fontface_standard_summary">Use the Android standard font of your device.</string>>
+    <string name="accessibility_profile_fontface_serif_title">Serif</string>>
+    <string name="accessibility_profile_fontface_serif_summary">Use a font with serifs.</string>>
+    <string name="accessibility_profile_fontface_dyslexic_title">OpenDeyslexic</string>>
+    <string name="accessibility_profile_fontface_dyslexic_summary">Use OpenDyslexic to increas readability for
+        readers with dyslexia.</string>
+    <string name="accessibility_profile_largeelementspacing_title">Large Element Spacing</string>
+    <string name="accessibility_profile_largeelementspacing_summary">The large element spacing increase the space
+        between touchable elements.</string>>
+    <string name="accessibility_profile_1_title">Hodur</string>>
+    <string name="accessibility_profile_1_summary">Visual improvement: High Contrast, Additional Icons</string>>
+    <string name="accessibility_profile_2_title">Odin</string>>
+    <string name="accessibility_profile_2_summary">Visual improvement: Large Text, Large Icons</string>>
+    <string name="accessibility_profile_3_title">Tiresias</string>>
+    <string name="accessibility_profile_3_summary">Visual Impairment: Blind</string>>
+    <string name="accessibility_profile_4_title">Fenir</string>>
+    <string name="accessibility_profile_4_summary">Input improvement: Large Element Spacing</string>>
+    <string name="accessibility_profile_5_title">Kali</string>>
+    <string name="accessibility_profile_5_summary">Input improvement: Disable Animation, Simple Text, Beginner
+        Mode</string>>
+    <string name="accessibility_profile_6_title">Tiro</string>>
+    <string name="accessibility_profile_6_summary">Beginner: Show tips and tutorials</string>>
+
+
     <!-- -->
     <string name="preference_description_arduino_bricks">Allow to control Arduino boards</string>
     <string name="preference_title_enable_raspi_bricks">Raspberry Pi bricks</string>

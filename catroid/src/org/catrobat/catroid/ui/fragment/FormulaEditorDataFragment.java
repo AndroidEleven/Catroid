@@ -251,7 +251,8 @@ public class FormulaEditorDataFragment extends ListFragment implements Dialog.On
 						alertDialog.setPositiveButton(R.string.deletion_alert_yes,
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog, int which) {
-										ProjectManager.getInstance().getCurrentProject().getDataContainer().deleteUserVariableByName(getNameOfItemInAdapter(index));
+										ProjectManager.getInstance().getCurrentProject().getDataContainer()
+												.deleteUserVariableByName(getNameOfItemInAdapter(index));
 										adapter.notifyDataSetChanged();
 										getActivity().sendBroadcast(new Intent(ScriptActivity.ACTION_VARIABLE_DELETED));
 									}
