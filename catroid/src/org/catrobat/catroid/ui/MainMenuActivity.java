@@ -45,6 +45,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.zed.bdsclient.controller.BDSClientController;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -170,6 +171,10 @@ public class MainMenuActivity extends BaseActivity implements OnLoadProjectCompl
 
 	// needed because of android:onClick in activity_main_menu.xml
 	public void handleContinueButton(View view) {
+		BDSClientController.getInstance().generateCustomEvent("ContinueButton", ProjectManager.getInstance().getUserID(),
+				System.currentTimeMillis(),
+				null);
+		BDSClientController.getInstance().setDebugMode(true);
 		handleContinueButton();
 	}
 

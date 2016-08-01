@@ -27,8 +27,10 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.facebook.AccessToken;
@@ -84,6 +86,8 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 	private boolean comingFromScriptFragmentToSoundFragment;
 	private boolean comingFromScriptFragmentToLooksFragment;
 	private boolean showUploadDialog = false;
+	private String userID = null;
+	private String androidId = null;
 
 	private FileChecksumContainer fileChecksumContainer = new FileChecksumContainer();
 
@@ -130,6 +134,20 @@ public final class ProjectManager implements OnLoadProjectCompleteListener, OnCh
 			checkTokenTask.execute();
 		}
 	}
+
+	public void setUserID(Context context){
+		androidId = Settings.Secure.getString(context.getContentResolver(),
+				Settings.Secure.ANDROID_ID);
+
+		userID = Build.MODEL.concat(androidId).concat("/" + PreferenceManager.getDefaultSharedPreferences(context)
+				.getString
+				("/" + Constants.USERNAME, "default"));
+		Log.d("testLog",userID);
+	}
+ public String getUserID(){
+	 return userID;
+ }
+
 
 	public void loadProject(String projectName, Context context) throws LoadingProjectException,
 			OutdatedVersionProjectException, CompatibilityProjectException {

@@ -28,6 +28,8 @@ import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.parrot.freeflight.settings.ApplicationSettings;
+import com.zed.bdsclient.controller.BDSClientController;
+import com.zed.bdsclient.environments.BDSClientEnvironments;
 
 public class CatroidApplication extends MultiDexApplication {
 
@@ -35,6 +37,10 @@ public class CatroidApplication extends MultiDexApplication {
 
 	private ApplicationSettings settings;
 	private static Context context;
+	private String appId = "NOLBPocketCode";
+	private String appPassword = "?Z+{_u_mUb72>Sr4";
+
+
 
 	public static final String OS_ARCH = System.getProperty("os.arch");
 
@@ -46,6 +52,8 @@ public class CatroidApplication extends MultiDexApplication {
 		Log.d(TAG, "CatroidApplication onCreate");
 		settings = new ApplicationSettings(this);
 		CatroidApplication.context = getApplicationContext();
+		BDSClientController controller = BDSClientController.init(context,
+				BDSClientEnvironments.PRO, appId, appPassword, 1, 0);
 	}
 
 	@Override
